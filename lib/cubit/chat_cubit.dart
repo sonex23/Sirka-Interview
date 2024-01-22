@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sirka_interview/model/chat_model.dart';
 import 'package:sirka_interview/services/hive_client_contract.dart';
@@ -11,7 +11,7 @@ class ChatCubit extends Cubit<ChatCubitState> {
   ChatCubit(this.hiveClient) : super(const ChatCubitState.loading());
 
   void getChat() async {
-    emit(ChatCubitState.loading());
+    emit(const ChatCubitState.loading());
     try {
       List chatData = await hiveClient.getByKeyAndBox(key: 'chat_list', box: 'chat');
       emit(ChatCubitState.loaded(chatData));

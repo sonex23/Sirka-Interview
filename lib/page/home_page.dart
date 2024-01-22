@@ -1,6 +1,4 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sirka_interview/page/bmi_page.dart';
 import 'package:sirka_interview/page/chat_page.dart';
 
@@ -33,10 +31,10 @@ class _HomePageState extends State<HomePage> {
                   indexPage = value;
                 });
               },
-              children: [
-                const BmiPage(),
-                const ChatPage(),
-                const Center(
+              children: const [
+                BmiPage(),
+                ChatPage(),
+                Center(
                   child: Text(
                     'Setting',
                     style: TextStyle(
@@ -44,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const Center(
+                Center(
                   child: Text(
                     'Profile',
                     style: TextStyle(

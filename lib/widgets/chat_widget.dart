@@ -41,12 +41,12 @@ class ChatWidget extends StatelessWidget {
                     children: [
                       Text(
                         chatModel.contact ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Today',
                         style: TextStyle(
                           fontSize: 10,
@@ -57,7 +57,7 @@ class ChatWidget extends StatelessWidget {
                   ),
                   Text(
                     chatModel.chat?.last.text ?? '',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Colors.grey,

@@ -24,7 +24,7 @@ class _ChatPageState extends State<ChatPage> {
         child: BlocBuilder<ChatCubit, ChatCubitState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (state.isError) {

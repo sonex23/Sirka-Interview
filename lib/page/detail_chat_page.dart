@@ -79,7 +79,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
               child: Row(
                 children: [
                   GestureDetector(
-                    child: Icon(Icons.arrow_back_ios),
+                    child: const Icon(Icons.arrow_back_ios),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -99,110 +99,131 @@ class _DetailChatPageState extends State<DetailChatPage> {
             ),
             BlocBuilder<ChatCubit, ChatCubitState>(
               builder: (context, state) {
-                chatData = state.listChat?.firstWhere((chat) => chat.id == widget.id) as ChatModel;
-                return Expanded(
-                  child: ListView.separated(
-                    controller: scrollController,
-                    itemCount: chatData.chat?.length ?? 0,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: index == (chatData.chat?.length ?? 0) - 1 ? 100 : 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      if (chatData.chat?[index].fromContact == false) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              constraints: const BoxConstraints(maxWidth: double.infinity / 2),
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 2, 69, 192),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8),
-                                  bottomLeft: Radius.circular(8),
-                                  bottomRight: Radius.circular(0),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      chatData.chat?[index].text ?? '',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      DateFormat.Hm().format(DateTime.parse(chatData.chat![index].time!)).toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onLongPress: () async {
-                                bool isDeleteChat = await showAlertDialog(
-                                  context: context,
-                                  title: 'Hapus Chat',
-                                  content: "Apakah kamu yakin ingin menghapus chat ini?",
-                                  cancelActionText: "Tidak",
-                                  defaultActionText: "Iya",
-                                );
+                if (state.isLoaded) {
+                  chatData = state.listChat?.firstWhere((chat) => chat.id == widget.id) as ChatModel;
+                  return Expanded(
+                    child: ListView.separated(
+                      controller: scrollController,
+                      itemCount: chatData.chat?.length ?? 0,
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: index == (chatData.chat?.length ?? 0) - 1 ? 100 : 10,
+                      ),
+                      itemBuilder: (context, index) {
+                        if (chatData.chat?[index].fromContact == false) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onLongPress: () async {
+                                  bool isDeleteChat = await showAlertDialog(
+                                    context: context,
+                                    title: 'Hapus Chat',
+                                    content: "Apakah kamu yakin ingin menghapus chat ini?",
+                                    cancelActionText: "Tidak",
+                                    defaultActionText: "Iya",
+                                  );
 
-                                if (isDeleteChat) {
-                                  context.read<ChatCubit>().deleteChat(widget.id, state.listChat!, chatData, index);
-                                }
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                constraints: const BoxConstraints(maxWidth: double.infinity / 2),
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8),
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(8),
+                                  if (isDeleteChat) {
+                                    context.read<ChatCubit>().deleteChat(widget.id, state.listChat!, chatData, index);
+                                  }
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  constraints: const BoxConstraints(maxWidth: double.infinity / 2),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 2, 69, 192),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8),
+                                      bottomRight: Radius.circular(0),
+                                    ),
                                   ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        chatData.chat?[index].text ?? '',
-                                      ),
-                                      Text(
-                                        DateFormat.Hm().format(DateTime.parse(chatData.chat![index].time!)).toString(),
-                                        style: const TextStyle(
-                                          fontSize: 12,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          chatData.chat?[index].text ?? '',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          DateFormat.Hm().format(DateTime.parse(chatData.chat![index].time!)).toString(),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                );
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onLongPress: () async {
+                                  bool isDeleteChat = await showAlertDialog(
+                                    context: context,
+                                    title: 'Hapus Chat',
+                                    content: "Apakah kamu yakin ingin menghapus chat ini?",
+                                    cancelActionText: "Tidak",
+                                    defaultActionText: "Iya",
+                                  );
+
+                                  if (isDeleteChat) {
+                                    context.read<ChatCubit>().deleteChat(widget.id, state.listChat!, chatData, index);
+                                  }
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 10),
+                                  constraints: const BoxConstraints(maxWidth: double.infinity / 2),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8),
+                                      bottomLeft: Radius.circular(0),
+                                      bottomRight: Radius.circular(8),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          chatData.chat?[index].text ?? '',
+                                        ),
+                                        Text(
+                                          DateFormat.Hm().format(DateTime.parse(chatData.chat![index].time!)).toString(),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
             ),
             BlocConsumer<ChatCubit, ChatCubitState>(

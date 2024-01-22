@@ -27,7 +27,6 @@ class _BmiPageState extends State<BmiPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getHistory();
   }
@@ -123,7 +122,7 @@ class _BmiPageState extends State<BmiPage> {
                 height: 10,
               ),
               Text(
-                '$conclusion',
+                conclusion,
                 style: const TextStyle(fontSize: 24),
                 textAlign: TextAlign.center,
               ),
